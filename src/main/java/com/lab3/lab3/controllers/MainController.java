@@ -3,6 +3,7 @@ package com.lab3.lab3.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import com.lab3.lab3.repository.RequestHistoryRepository; // Здесь должен быть правильный путь к вашему репозиторию
 
 
 @Controller
@@ -18,7 +19,7 @@ public class MainController {
     @GetMapping("/requests_history")
     public String requests_history(Model model)
     {
-        return "requests_history";
+        return "request_history";
     }
 
     @GetMapping("/task1")

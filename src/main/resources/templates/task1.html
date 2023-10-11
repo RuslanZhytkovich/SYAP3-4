@@ -26,16 +26,52 @@
                         <a class="nav-link" href="requests_history">История запросов</a>
                     </li>
                 </ul>
-
             </div>
         </div>
     </nav>
-
 </div>
-
 
 <div style="margin-left: 50px;">
     <h1 style="margin-top: 100px;">Задание 1</h1>
+     <h6>Массив 5, 10, 15, 20, 25</h6>
+    <form id="numberPositionForm">
+        <div class="mb-3">
+            <label for="numberInput" class="form-label">Введите число для поиска:</label>
+            <input type="number" class="form-control" id="numberInput" name="number" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Найти</button>
+    </form>
+
+    <div id="result"></div>
 </div>
+
+
+<script>
+    document.getElementById('numberPositionForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const number = document.getElementById('numberInput').value;
+
+        fetch('/findPosition', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ number }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('result').innerText = `Результат: ${data.result},
+                Время получения запроса: ${data.startTime},
+                Время отправки ответа: ${data.endTime},
+                Время выполнения функции: ${data.executionTime} мс`;
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+        });
+    });
+</script>
+
+
+
 </body>
 </html>

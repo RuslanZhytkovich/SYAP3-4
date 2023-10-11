@@ -34,12 +34,42 @@
 </div>
 
 
-<div style="margin-left: 50px;">
-  <h1 style="margin-top: 100px;">История запросов</h1>
+<div>
+  <h1>История запросов</h1>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Время запроса</th>
+      <th>Результат</th>
+    </tr>
+    <th:block th:each="entry : ${historyList}">
+      <tr>
+        <td th:text="${entry.id}"></td>
+        <td th:text="${entry.requestTime}"></td>
+        <td th:text="${entry.result}"></td>
+      </tr>
+    </th:block>
+  </table>
 </div>
 
 
-
+<script>
+  // Получение истории запросов с сервера
+  fetch('/requestHistory')
+      .then(response => response.json())
+      .then(data => {
+          // Отобразить историю запросов на странице
+          const historyContainer = document.getElementById('historyContainer');
+          data.forEach(request => {
+              const historyItem = document.createElement('div');
+              historyItem.innerText = `Число: ${request.number}, Результат: ${request.result}, Время запроса: ${request.requestTime}, Время ответа: ${request.responseTime}, Время выполнения: ${request.executionTime} мс`;
+              historyContainer.appendChild(historyItem);
+          });
+      })
+      .catch(error => {
+          console.error('Ошибка:', error);
+      });
+</script>
 
 
 </body>
