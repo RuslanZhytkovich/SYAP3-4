@@ -13,6 +13,15 @@ public class NumberPositionService {
     private Task1Repository task1Repository;
 
     public int findPosition(int number) {
+        String uniqueValue = Integer.toString(number);
+        Task1 existingValue = task1Repository.findByUniqueValue(uniqueValue);
+
+        if (existingValue == null) {
+            Task1 newTask1 = new Task1();
+            newTask1.setUniqueValue(uniqueValue);
+            task1Repository.save(newTask1);
+        }
+
         int[] numbers = {5, 10, 15, 20, 25};
         int position = -1;
 
@@ -23,18 +32,7 @@ public class NumberPositionService {
             }
         }
 
-        // Если позиция -1 (число не найдено), не сохраняем в Task1
-        if (position >= 0) {
-            String uniqueValue = Integer.toString(numbers[position]);
-            Task1 existingValue = task1Repository.findByUniqueValue(uniqueValue);
-
-            if (existingValue == null) {
-                Task1 newTask1 = new Task1();
-                newTask1.setUniqueValue(uniqueValue);
-                task1Repository.save(newTask1);
-            }
-        }
-
         return position;
     }
 }
+
