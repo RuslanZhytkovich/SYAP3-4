@@ -14,12 +14,24 @@ public class NumberPositionService {
 
     public int findPosition(int number) {
         int[] numbers = {5, 10, 15, 20, 25};
-        int position = -1; // Устанавливаем значение -1 по умолчанию
+        int position = -1;
 
         for (int i = 0; i < numbers.length; i++) {
             if (numbers[i] == number) {
                 position = i;
                 break;
+            }
+        }
+
+        // Если позиция -1 (число не найдено), не сохраняем в Task1
+        if (position >= 0) {
+            String uniqueValue = Integer.toString(numbers[position]);
+            Task1 existingValue = task1Repository.findByUniqueValue(uniqueValue);
+
+            if (existingValue == null) {
+                Task1 newTask1 = new Task1();
+                newTask1.setUniqueValue(uniqueValue);
+                task1Repository.save(newTask1);
             }
         }
 

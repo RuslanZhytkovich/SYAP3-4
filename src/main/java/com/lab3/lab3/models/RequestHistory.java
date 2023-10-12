@@ -10,10 +10,19 @@ public class RequestHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int number;
-    private String result;
     private String requestTime;
     private String responseTime;
     private long executionTime;
 
+    public void setRequestTime(String requestTime) {
+        this.requestTime = requestTime;
+    }
+
+    public void setResponseTime(String responseTime) {
+        this.responseTime = responseTime;
+    }
+
+    public void setExecutionTime(long executionTime) {
+        this.executionTime = executionTime;
+    }
 }

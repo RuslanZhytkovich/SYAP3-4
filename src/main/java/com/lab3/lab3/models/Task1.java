@@ -7,6 +7,7 @@ public class Task1 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(unique = true)
     private String uniqueValue;
 
@@ -17,5 +18,4 @@ public class Task1 {
     public void setUniqueValue(String uniqueValue) {
         this.uniqueValue = uniqueValue;
     }
-
 }
