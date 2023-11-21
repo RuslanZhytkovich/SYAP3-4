@@ -29,15 +29,21 @@
                         <a class="nav-link" href="/unique_result/all">Уникальные результаты в JSON</a>
                     </li>
                 </ul>
+
             </div>
         </div>
     </nav>
+
 </div>
 
 <div style="margin-left: 50px;">
     <h1 style="margin-top: 100px;">Задание 1</h1>
-     <h6>Массив 5, 10, 15, 20, 25</h6>
     <form id="numberPositionForm">
+        <div class="mb-3">
+            <label for="numbersInput" class="form-label">Введите числа для поиска (через запятую):</label>
+            <input type="text" class="form-control" id="numbersInput" name="numbers" required>
+        </div>
+
         <div class="mb-3">
             <label for="numberInput" class="form-label">Введите число для поиска:</label>
             <input type="number" class="form-control" id="numberInput" name="number" required>
@@ -48,33 +54,34 @@
     <div id="result"></div>
 </div>
 
-
 <script>
     document.getElementById('numberPositionForm').addEventListener('submit', function (e) {
         e.preventDefault();
         const number = document.getElementById('numberInput').value;
+        const numbersInput = document.getElementById('numbersInput').value;
+
+        // Convert the input string to an array of numbers
+        const numbers = numbersInput.split(',').map(Number);
 
         fetch('/findPosition', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ number }),
+            body: JSON.stringify({ number, numbers }),
         })
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('result').innerText = `Результат: ${data.result},
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerText = `Результат: ${data.result},
                 Время получения запроса: ${data.startTime},
                 Время отправки ответа: ${data.endTime},
                 Время выполнения функции: ${data.executionTime} мс`;
-        })
-        .catch(error => {
-            console.error('Ошибка:', error);
-        });
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+            });
     });
 </script>
-
-
 
 </body>
 </html>

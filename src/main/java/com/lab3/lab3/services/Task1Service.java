@@ -1,6 +1,6 @@
 package com.lab3.lab3.services;
-
 import com.lab3.lab3.models.Task1;
+
 import com.lab3.lab3.repository.Task1Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,17 +10,27 @@ public class Task1Service {
     @Autowired
     private Task1Repository task1Repository;
 
-    public int findAndSaveUniqueValue(int number) {
-        // Проверяем, существует ли значение в базе данных
-        Task1 existingValue = task1Repository.findByUniqueValue(Integer.toString(number));
-        if (existingValue != null) {
-            return -1; // Если значение уже существует, возвращаем -1
-        } else {
-            // Если значение не существует, создаем новый экземпляр и сохраняем его
+    public int findPosition(int number, int[] numbers) {
+        String uniqueValue = Integer.toString(number);
+        Task1 existingValue = task1Repository.findByUniqueValue(uniqueValue);
+
+        if (existingValue == null) {
             Task1 newTask1 = new Task1();
-            newTask1.setUniqueValue(Integer.toString(number));
+            newTask1.setUniqueValue(uniqueValue);
             task1Repository.save(newTask1);
-            return number;
         }
+
+        int position = -1;
+
+        for (int i = 0; i < numbers.length; i++) {
+            if (numbers[i] == number) {
+                position = i;
+                break;
+            }
+        }
+
+        return position;
     }
 }
+
+
