@@ -1,12 +1,9 @@
 package com.lab3.lab3.controllers;
 
 import com.lab3.lab3.models.RequestHistory;
-import com.lab3.lab3.models.Task1;
 import com.lab3.lab3.repository.RequestHistoryRepository;
 import com.lab3.lab3.repository.Task1Repository;
-import com.lab3.lab3.request.Task1Request;
 import com.lab3.lab3.request.Task2Request;
-import com.lab3.lab3.services.Task1Service;
 import com.lab3.lab3.services.Task2Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,12 +40,11 @@ public class Task2Controller {
         List<String> combinations = service.findCombinations(sum, numbers);
         long endTime = System.currentTimeMillis();
 
-        // Создаем запись в RequestHistory и сохраняем её
+
         RequestHistory requestHistory = new RequestHistory();
         requestHistory.setRequestTime(formatTime(startTime));
         requestHistory.setResponseTime(formatTime(endTime));
         requestHistory.setExecutionTime(endTime - startTime);
-
 
 
         Map<String, Object> response = new HashMap<>();

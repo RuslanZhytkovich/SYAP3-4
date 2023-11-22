@@ -55,10 +55,10 @@
 <script>
     document.getElementById('numberPositionForm').addEventListener('submit', function (e) {
         e.preventDefault();
-        const number = document.getElementById('numberInput').value;
+        const sum = document.getElementById('numberInput').value;
         const numbersInput = document.getElementById('numbersInput').value;
 
-        // Convert the input string to an array of numbers
+
         const numbers = numbersInput.split(',').map(Number);
 
         fetch('/findSum', {
@@ -66,36 +66,21 @@
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ sum: number, numbers }),
+            body: JSON.stringify({ sum, numbers }),
         })
             .then(response => response.json())
             .then(data => {
-                const resultDiv = document.getElementById('result');
-                resultDiv.innerHTML = ''; // Clear previous results
-
-                if (data.result.length > 0) {
-                    const resultList = document.createElement('ul');
-                    data.result.forEach(combination => {
-                        const listItem = document.createElement('li');
-                        listItem.innerText = combination;
-                        resultList.appendChild(listItem);
-                    });
-                    resultDiv.appendChild(resultList);
-                } else {
-                    resultDiv.innerHTML = '<p>Комбинаций не найдено.</p>';
-                }
-
-                resultDiv.innerHTML += `
-                <p>Время получения запроса: ${data.startTime}</p>
-                <p>Время отправки ответа: ${data.endTime}</p>
-                <p>Время выполнения функции: ${data.executionTime} мс</p>
-            `;
+                document.getElementById('result').innerText = `Результат: ${data.result},
+                Время получения запроса: ${data.startTime},
+                Время отправки ответа: ${data.endTime},
+                Время выполнения функции: ${data.executionTime} мс`;
             })
             .catch(error => {
                 console.error('Ошибка:', error);
             });
     });
 </script>
+
 
 </body>
 </html>

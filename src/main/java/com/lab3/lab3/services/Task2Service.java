@@ -1,14 +1,17 @@
 package com.lab3.lab3.services;
+
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
 
 @Service
 public class Task2Service {
 
     public List<String> findCombinations(int sum, int[] numbers) {
-        System.out.println("Комбинации, дающие сумму " + sum + ":");
+        System.out.println("сумма " + Arrays.toString(numbers) + ":");
+        System.out.println("Комбинации, дающие сумму " + sum + ": " + findAndReturnCombinations(numbers, sum));
+
         return findAndReturnCombinations(numbers, sum);
     }
 

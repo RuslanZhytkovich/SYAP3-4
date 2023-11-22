@@ -60,7 +60,6 @@
         const number = document.getElementById('numberInput').value;
         const numbersInput = document.getElementById('numbersInput').value;
 
-        // Convert the input string to an array of numbers
         const numbers = numbersInput.split(',').map(Number);
 
         fetch('/findPosition', {

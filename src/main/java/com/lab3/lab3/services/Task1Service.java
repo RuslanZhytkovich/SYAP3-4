@@ -11,6 +11,7 @@ public class Task1Service {
     private Task1Repository task1Repository;
 
     public int findPosition(int number, int[] numbers) {
+        System.out.println(numbers);
         String uniqueValue = Integer.toString(number);
         Task1 existingValue = task1Repository.findByUniqueValue(uniqueValue);
 
