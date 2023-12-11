@@ -49,7 +49,7 @@
             <label for="numberInput" class="form-label">Введите сумму двух чисел:</label>
             <input type="number" class="form-control" id="numberInput" name="number" required>
         </div>
-        <button type="submit" class="btn btn-primary">Найти</button>
+        <button type="submit" class="btn btn-primary" id="searchButton">Найти</button>
     </form>
 
     <div id="result"></div>
@@ -58,32 +58,50 @@
 <script>
     document.getElementById('numberPositionForm').addEventListener('submit', function (e) {
         e.preventDefault();
+
+        // Отключение кнопки на время выполнения запроса
+        document.getElementById('searchButton').disabled = true;
+
+        // Показ анимации ожидания
+        document.getElementById('result').innerHTML = `<div class="loader"></div>`;
+
         const sum = document.getElementById('numberInput').value;
         const numbersInput = document.getElementById('numbersInput').value;
 
-
         const numbers = numbersInput.split(',').map(Number);
 
-        fetch('/findSum', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ sum, numbers }),
-        })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('result').innerText = `Результат: ${data.result},
-                Время получения запроса: ${data.startTime},
-                Время отправки ответа: ${data.endTime},
-                Время выполнения функции: ${data.executionTime} мс`;
+        // Добавление задержки в 2 секунды
+        setTimeout(function() {
+            fetch('/findSum', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ sum, numbers }),
             })
-            .catch(error => {
-                console.error('Ошибка:', error);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    // Включение кнопки после выполнения запроса
+                    document.getElementById('searchButton').disabled = false;
+
+                    // Скрытие анимации ожидания и отображение результата
+                    document.getElementById('result').innerHTML = `
+                        <div>
+                            Результат: ${data.result}<br>
+                            Время получения запроса: ${data.startTime}<br>
+                            Время отправки ответа: ${data.endTime}<br>
+                            Время выполнения функции: ${data.executionTime} мс
+                        </div>`;
+                })
+                .catch(error => {
+                    // Включение кнопки в случае ошибки
+                    document.getElementById('searchButton').disabled = false;
+
+                    console.error('Ошибка:', error);
+                });
+        }, 2000); // 2 секунды
     });
 </script>
-
 
 </body>
 </html>
